@@ -303,7 +303,7 @@ function makeCard(song){
 
   return `
     <section class="song-card">
-      ${isNew(song.date) ? `<div class="new">✧ NEW ✧</div>
+      ${isNew(song.date) ? `<div class="new">✧ NEW ✧</div>` : ""}
       <div class="song-title">♪ ${song.title}</div>
       <div class="artist">${song.artist || ""}</div>
       <div class="line"></div>
