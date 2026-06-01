@@ -299,6 +299,7 @@ function makeCard(song){
   if(song.category) badges.push(song.category);
   if(isYes(song.duet)) badges.push("デュエット");
   if(isYes(song.harmony)) badges.push("ハモリ");
+  if(isYes(song.favorite)) badges.push("十八番");
 
   return `
     <section class="song-card">
@@ -377,14 +378,15 @@ async function loadSongs(){
   rows.shift();
 
   allSongs = rows.map(row => ({
-    title: row[0]?.trim() || "",
-    artist: row[1]?.trim() || "",
-    source: row[2]?.trim() || "",
-    category: row[3]?.trim() || "",
-    duet: row[4]?.trim() || "",
-    harmony: row[5]?.trim() || "",
-    date: row[6]?.trim() || ""
-  })).filter(song => song.title);
+  title: row[0]?.trim() || "",
+  artist: row[1]?.trim() || "",
+  source: row[2]?.trim() || "",
+  category: row[3]?.trim() || "",
+  duet: row[4]?.trim() || "",
+  harmony: row[5]?.trim() || "",
+  favorite: row[6]?.trim() || "",
+  date: row[7]?.trim() || ""
+})).filter(song => song.title);
 
   allSongs.sort((a,b) =>
     a.title.localeCompare(b.title, "ja")
