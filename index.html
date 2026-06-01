@@ -17,12 +17,15 @@ body{
   padding:16px;
   background:
     radial-gradient(circle at top left, rgba(255,255,255,.95), transparent 30%),
-    linear-gradient(180deg,#eaf8ff 0%,#f8fdff 100%);
+    linear-gradient(180deg,#dff4ff 0%,#eef9ff 50%,#f6fcff 100%);
   font-family:"Zen Old Mincho", serif;
   color:#5f91d2;
 }
 
-.wrap{ max-width:820px; margin:0 auto; }
+.wrap{
+  max-width:820px;
+  margin:0 auto;
+}
 
 .frame{
   background:rgba(255,255,255,.58);
@@ -37,7 +40,10 @@ body{
   margin:12px 4px 22px;
 }
 
-.moon{ font-size:24px; margin-bottom:6px; }
+.moon{
+  font-size:24px;
+  margin-bottom:6px;
+}
 
 h1{
   margin:0;
@@ -76,7 +82,9 @@ h1{
   border-radius:0;
 }
 
-.search::placeholder{ color:#94b7e4; }
+.search::placeholder{
+  color:#94b7e4;
+}
 
 .categories{
   display:grid;
@@ -202,19 +210,7 @@ h1{
 
   <input id="searchInput" class="search" type="text" placeholder="曲名・アーティストで検索">
 
-  <div class="categories" id="categoryButtons">
-    <div class="cat active" data-category="全曲">全曲</div>
-    <div class="cat" data-category="アニメ">アニメ</div>
-    <div class="cat" data-category="ボカロ">ボカロ</div>
-    <div class="cat" data-category="女性アイドル">女性アイドル</div>
-    <div class="cat" data-category="男性アイドル">男性アイドル</div>
-    <div class="cat" data-category="VTuber">VTuber</div>
-    <div class="cat" data-category="J-POP">J-POP</div>
-    <div class="cat" data-category="ゲーム">ゲーム</div>
-    <div class="cat" data-category="洋楽">洋楽</div>
-    <div class="cat" data-category="昭和歌謡">昭和歌謡</div>
-    <div class="cat" data-category="声優">声優</div>
-  </div>
+  <div class="categories" id="categoryButtons"></div>
 
   <div id="songList"></div>
 
@@ -282,7 +278,12 @@ function isNew(dateText){
 
   const today = new Date();
   const diff = (today - date) / (1000 * 60 * 60 * 24);
+
   return diff <= 30;
+}
+
+function formatLastUpdate(dateText){
+  return dateText || "";
 }
 
 function makeCard(song){
@@ -304,6 +305,34 @@ function makeCard(song){
       </div>
     </section>
   `;
+}
+
+function renderCategoryButtons(){
+  const categories = [
+    "全曲",
+    ...new Set(
+      allSongs
+        .map(song => song.category)
+        .filter(Boolean)
+    )
+  ];
+
+  const container = document.getElementById("categoryButtons");
+
+  container.innerHTML = categories.map(category => `
+    <div class="cat ${category === currentCategory ? "active" : ""}" data-category="${category}">
+      ${category}
+    </div>
+  `).join("");
+
+  container.querySelectorAll(".cat").forEach(button => {
+    button.addEventListener("click", () => {
+      container.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
+      button.classList.add("active");
+      currentCategory = button.dataset.category;
+      renderSongs();
+    });
+  });
 }
 
 function renderSongs(){
@@ -350,25 +379,21 @@ async function loadSongs(){
     date: row[6]?.trim() || ""
   })).filter(song => song.title);
 
+  allSongs.sort((a,b) =>
+    a.title.localeCompare(b.title, "ja")
+  );
+
   const dates = allSongs.map(s => s.date).filter(Boolean);
   if(dates.length){
     document.getElementById("lastUpdate").textContent =
-      `✧ Last Update　${dates[dates.length - 1]} ✧`;
+      `✧ Last Update　${formatLastUpdate(dates[dates.length - 1])} ✧`;
   }
 
+  renderCategoryButtons();
   renderSongs();
 }
 
 document.getElementById("searchInput").addEventListener("input", renderSongs);
-
-document.querySelectorAll(".cat").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
-    button.classList.add("active");
-    currentCategory = button.dataset.category;
-    renderSongs();
-  });
-});
 
 loadSongs();
 </script>
