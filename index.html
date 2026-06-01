@@ -171,10 +171,10 @@ h1{
   top:10px;
   right:10px;
   border:1px solid #8fb8e8;
-  background:rgba(255,255,255,.58);
-  padding:2px 7px;
-  font-size:10px;
-  letter-spacing:.08em;
+  background:rgba(255,255,255,.75);
+  padding:2px 8px;
+  font-size:9px;
+  letter-spacing:.12em;
 }
 
 .empty{
@@ -303,7 +303,7 @@ function makeCard(song){
 
   return `
     <section class="song-card">
-      ${isNew(song.date) ? `<div class="new">NEW</div>` : ""}
+      ${isNew(song.date) ? `<div class="new">✧ NEW ✧</div>
       <div class="song-title">♪ ${song.title}</div>
       <div class="artist">${song.artist || ""}</div>
       <div class="line"></div>
