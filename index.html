@@ -22,10 +22,7 @@ body{
   color:#5f91d2;
 }
 
-.wrap{
-  max-width:820px;
-  margin:0 auto;
-}
+.wrap{ max-width:820px; margin:0 auto; }
 
 .frame{
   background:rgba(255,255,255,.58);
@@ -40,10 +37,7 @@ body{
   margin:12px 4px 22px;
 }
 
-.moon{
-  font-size:24px;
-  margin-bottom:6px;
-}
+.moon{ font-size:24px; margin-bottom:6px; }
 
 h1{
   margin:0;
@@ -82,9 +76,7 @@ h1{
   border-radius:0;
 }
 
-.search::placeholder{
-  color:#94b7e4;
-}
+.search::placeholder{ color:#94b7e4; }
 
 .categories{
   display:grid;
@@ -100,6 +92,11 @@ h1{
   padding:8px 5px;
   text-align:center;
   font-size:13px;
+  cursor:pointer;
+}
+
+.cat.active{
+  background:rgba(143,184,232,.22);
 }
 
 .song-card{
@@ -167,6 +164,13 @@ h1{
   letter-spacing:.08em;
 }
 
+.empty{
+  text-align:center;
+  font-size:13px;
+  padding:28px 8px;
+  color:#7aa7dc;
+}
+
 .footer{
   text-align:center;
   margin:24px 0 8px;
@@ -175,17 +179,9 @@ h1{
 }
 
 @media(min-width:640px){
-  body{
-    padding:24px;
-  }
-
-  .categories{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  h1{
-    font-size:34px;
-  }
+  body{ padding:24px; }
+  .categories{ grid-template-columns:repeat(4,1fr); }
+  h1{ font-size:34px; }
 }
 </style>
 </head>
@@ -204,67 +200,177 @@ h1{
     </div>
   </section>
 
-  <input class="search" type="text" placeholder="曲名・アーティストで検索">
+  <input id="searchInput" class="search" type="text" placeholder="曲名・アーティストで検索">
 
-  <div class="categories">
-    <div class="cat">全曲</div>
-    <div class="cat">アニメ</div>
-    <div class="cat">ボカロ</div>
-    <div class="cat">女性アイドル</div>
-    <div class="cat">男性アイドル</div>
-    <div class="cat">VTuber</div>
-    <div class="cat">J-POP</div>
-    <div class="cat">ゲーム</div>
-    <div class="cat">洋楽</div>
-    <div class="cat">昭和歌謡</div>
-    <div class="cat">声優</div>
+  <div class="categories" id="categoryButtons">
+    <div class="cat active" data-category="全曲">全曲</div>
+    <div class="cat" data-category="アニメ">アニメ</div>
+    <div class="cat" data-category="ボカロ">ボカロ</div>
+    <div class="cat" data-category="女性アイドル">女性アイドル</div>
+    <div class="cat" data-category="男性アイドル">男性アイドル</div>
+    <div class="cat" data-category="VTuber">VTuber</div>
+    <div class="cat" data-category="J-POP">J-POP</div>
+    <div class="cat" data-category="ゲーム">ゲーム</div>
+    <div class="cat" data-category="洋楽">洋楽</div>
+    <div class="cat" data-category="昭和歌謡">昭和歌謡</div>
+    <div class="cat" data-category="声優">声優</div>
   </div>
 
-  <section class="song-card">
-    <div class="new">NEW</div>
-    <div class="song-title">♪ Snow halation</div>
-    <div class="artist">μ's</div>
-    <div class="line"></div>
-    <div class="source">作品・出典　ラブライブ！</div>
-    <div class="badges">
-      <span class="badge">アニメ</span>
-      <span class="badge">ハモリ</span>
-    </div>
-  </section>
+  <div id="songList"></div>
 
-  <section class="song-card">
-    <div class="new">NEW</div>
-    <div class="song-title">♪ ライオン</div>
-    <div class="artist">May'n・中島愛</div>
-    <div class="line"></div>
-    <div class="source">作品・出典　マクロスF</div>
-    <div class="badges">
-      <span class="badge">アニメ</span>
-      <span class="badge">デュエット</span>
-      <span class="badge">ハモリ</span>
-    </div>
-  </section>
-
-  <section class="song-card">
-    <div class="song-title">♪ God knows...</div>
-    <div class="artist">涼宮ハルヒ</div>
-    <div class="line"></div>
-    <div class="source">作品・出典　涼宮ハルヒの憂鬱</div>
-    <div class="badges">
-      <span class="badge">アニメ</span>
-      <span class="badge">ハモリ</span>
-    </div>
-  </section>
-
-  <div class="footer">
-    ✧ Last Update　2026.06.02 ✧
+  <div class="footer" id="lastUpdate">
+    ✧ Last Update ✧
   </div>
 
 </div>
 
 <script>
-const songs = document.querySelectorAll(".song-card");
-document.getElementById("songCount").textContent = songs.length;
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ444xhyCcfqrCQePNQS_DhjMc-wLoXzTWUYyB7I4Q1-bIzbTgTDtkf8ZKbFyiwtiruFQ1uhXX8lwcG/pub?gid=0&single=true&output=csv";
+
+let allSongs = [];
+let currentCategory = "全曲";
+
+function parseCSV(text){
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let inQuotes = false;
+
+  for(let i = 0; i < text.length; i++){
+    const char = text[i];
+    const next = text[i + 1];
+
+    if(char === '"' && inQuotes && next === '"'){
+      cell += '"';
+      i++;
+    }else if(char === '"'){
+      inQuotes = !inQuotes;
+    }else if(char === "," && !inQuotes){
+      row.push(cell);
+      cell = "";
+    }else if((char === "\n" || char === "\r") && !inQuotes){
+      if(cell || row.length){
+        row.push(cell);
+        rows.push(row);
+        row = [];
+        cell = "";
+      }
+      if(char === "\r" && next === "\n") i++;
+    }else{
+      cell += char;
+    }
+  }
+
+  if(cell || row.length){
+    row.push(cell);
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+function isYes(value){
+  const v = String(value || "").trim();
+  return ["あり","有","○","◯","TRUE","true","1","yes","Yes"].includes(v);
+}
+
+function isNew(dateText){
+  if(!dateText) return false;
+
+  const date = new Date(String(dateText).replace(/\./g,"/").replace(/-/g,"/"));
+  if(isNaN(date)) return false;
+
+  const today = new Date();
+  const diff = (today - date) / (1000 * 60 * 60 * 24);
+  return diff <= 30;
+}
+
+function makeCard(song){
+  const badges = [];
+
+  if(song.category) badges.push(song.category);
+  if(isYes(song.duet)) badges.push("デュエット");
+  if(isYes(song.harmony)) badges.push("ハモリ");
+
+  return `
+    <section class="song-card">
+      ${isNew(song.date) ? `<div class="new">NEW</div>` : ""}
+      <div class="song-title">♪ ${song.title}</div>
+      <div class="artist">${song.artist || ""}</div>
+      <div class="line"></div>
+      <div class="source">作品・出典　${song.source || "-"}</div>
+      <div class="badges">
+        ${badges.map(b => `<span class="badge">${b}</span>`).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderSongs(){
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+
+  const filtered = allSongs.filter(song => {
+    const matchCategory =
+      currentCategory === "全曲" || song.category === currentCategory;
+
+    const text = [
+      song.title,
+      song.artist,
+      song.source,
+      song.category
+    ].join(" ").toLowerCase();
+
+    const matchKeyword = text.includes(keyword);
+
+    return matchCategory && matchKeyword;
+  });
+
+  document.getElementById("songCount").textContent = filtered.length;
+
+  document.getElementById("songList").innerHTML =
+    filtered.length
+      ? filtered.map(makeCard).join("")
+      : `<div class="empty">該当する曲がありません</div>`;
+}
+
+async function loadSongs(){
+  const response = await fetch(CSV_URL);
+  const text = await response.text();
+  const rows = parseCSV(text).filter(row => row.some(cell => cell.trim() !== ""));
+
+  rows.shift();
+
+  allSongs = rows.map(row => ({
+    title: row[0]?.trim() || "",
+    artist: row[1]?.trim() || "",
+    source: row[2]?.trim() || "",
+    category: row[3]?.trim() || "",
+    duet: row[4]?.trim() || "",
+    harmony: row[5]?.trim() || "",
+    date: row[6]?.trim() || ""
+  })).filter(song => song.title);
+
+  const dates = allSongs.map(s => s.date).filter(Boolean);
+  if(dates.length){
+    document.getElementById("lastUpdate").textContent =
+      `✧ Last Update　${dates[dates.length - 1]} ✧`;
+  }
+
+  renderSongs();
+}
+
+document.getElementById("searchInput").addEventListener("input", renderSongs);
+
+document.querySelectorAll(".cat").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+    currentCategory = button.dataset.category;
+    renderSongs();
+  });
+});
+
+loadSongs();
 </script>
 
 </body>
