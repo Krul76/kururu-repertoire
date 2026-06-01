@@ -3,113 +3,223 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Kururu Repertoire</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
+*{ box-sizing:border-box; }
 
 body{
-    margin:0;
-    padding:20px;
-    background:#EEF9FF;
-    font-family:"Zen Old Mincho", serif;
-    color:#6A9FD8;
+  margin:0;
+  padding:22px;
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,.9), transparent 30%),
+    linear-gradient(180deg,#eaf8ff 0%,#f7fcff 100%);
+  font-family:"Zen Old Mincho", serif;
+  color:#5f91d2;
 }
 
-.container{
-    max-width:700px;
-    margin:auto;
+.wrap{
+  max-width:760px;
+  margin:0 auto;
+}
+
+.frame{
+  background:rgba(255,255,255,.72);
+  border:1px solid #8fb8e8;
+  outline:1px solid rgba(143,184,232,.55);
+  outline-offset:5px;
+  padding:28px 18px;
+  margin:18px 4px 26px;
 }
 
 .header{
-    text-align:center;
-    background:white;
-    padding:40px 20px;
-    border-radius:24px;
-    margin-bottom:20px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  text-align:center;
+  padding:40px 18px;
 }
 
-.title{
-    font-size:32px;
-    margin-bottom:10px;
+.moon{
+  font-size:34px;
+  margin-bottom:12px;
 }
 
-.subtitle{
-    font-size:14px;
+h1{
+  margin:0;
+  font-size:38px;
+  font-weight:700;
+  letter-spacing:.04em;
 }
 
-.card{
-    background:white;
-    border-radius:20px;
-    padding:20px;
-    margin-bottom:16px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+.sub{
+  margin-top:8px;
+  font-size:18px;
+  letter-spacing:.12em;
 }
 
-.song{
-    font-size:22px;
-    margin-bottom:8px;
+.message{
+  margin-top:28px;
+  line-height:1.9;
+  font-size:17px;
+}
+
+.search{
+  width:100%;
+  padding:17px 18px;
+  margin:8px 0 24px;
+  border:1px solid #9fc2ed;
+  background:rgba(255,255,255,.76);
+  color:#5f91d2;
+  font-family:inherit;
+  font-size:16px;
+  border-radius:0;
+}
+
+.search::placeholder{
+  color:#94b7e4;
+}
+
+.categories{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:26px;
+}
+
+.cat{
+  border:1px solid #9fc2ed;
+  background:rgba(255,255,255,.64);
+  color:#5f91d2;
+  padding:13px 8px;
+  text-align:center;
+  font-size:15px;
+}
+
+.song-card{
+  position:relative;
+  background:rgba(255,255,255,.68);
+  border:1px solid #8fb8e8;
+  outline:1px solid rgba(143,184,232,.45);
+  outline-offset:4px;
+  padding:24px 18px;
+  margin:0 4px 22px;
+}
+
+.song-title{
+  font-size:26px;
+  font-weight:700;
+  margin-bottom:8px;
 }
 
 .artist{
-    margin-bottom:12px;
+  font-size:18px;
+  margin-bottom:16px;
 }
 
-.info{
-    color:#8FA7C6;
-    font-size:14px;
+.line{
+  border-top:1px dashed rgba(95,145,210,.45);
+  margin:14px 0;
 }
 
+.meta{
+  font-size:15px;
+  line-height:2;
+  color:#6f9ed8;
+}
+
+.tag{
+  display:inline-block;
+  min-width:84px;
+  border:1px solid rgba(143,184,232,.55);
+  background:rgba(255,255,255,.5);
+  padding:3px 8px;
+  margin:4px 6px 4px 0;
+  text-align:center;
+}
+
+.footer{
+  text-align:center;
+  margin:34px 0 12px;
+  font-size:14px;
+  color:#7aa7dc;
+}
+
+@media(min-width:640px){
+  .categories{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
 </style>
 </head>
 
 <body>
+<div class="wrap">
 
-<div class="container">
+  <section class="frame header">
+    <div class="moon">☾</div>
+    <h1>Kururu Repertoire</h1>
+    <div class="sub">歌える曲一覧</div>
+    <div class="message">
+      歌唱実習大好きな候補生です🤍<br>
+      是非参考にしてくださいっ！
+    </div>
+  </section>
 
-<div class="header">
-<div style="font-size:28px;">☾</div>
+  <input class="search" type="text" placeholder="曲名・アーティストで検索">
 
-<div class="title">
-Kururu Repertoire
+  <div class="categories">
+    <div class="cat">全曲</div>
+    <div class="cat">アニメ</div>
+    <div class="cat">ボカロ</div>
+    <div class="cat">女性アイドル</div>
+    <div class="cat">男性アイドル</div>
+    <div class="cat">VTuber</div>
+    <div class="cat">J-POP</div>
+    <div class="cat">ゲーム</div>
+    <div class="cat">洋楽</div>
+    <div class="cat">昭和歌謡</div>
+    <div class="cat">声優</div>
+  </div>
+
+  <section class="song-card">
+    <div class="song-title">♪ Snow halation</div>
+    <div class="artist">μ's</div>
+    <div class="line"></div>
+    <div class="meta">
+      作品・出典　ラブライブ！<br>
+      <span class="tag">デュエット</span>なし　
+      <span class="tag">ハモリ</span>あり
+    </div>
+  </section>
+
+  <section class="song-card">
+    <div class="song-title">♪ ライオン</div>
+    <div class="artist">May'n・中島愛</div>
+    <div class="line"></div>
+    <div class="meta">
+      作品・出典　マクロスF<br>
+      <span class="tag">デュエット</span>あり　
+      <span class="tag">ハモリ</span>要相手
+    </div>
+  </section>
+
+  <section class="song-card">
+    <div class="song-title">♪ God knows...</div>
+    <div class="artist">涼宮ハルヒ</div>
+    <div class="line"></div>
+    <div class="meta">
+      作品・出典　涼宮ハルヒの憂鬱<br>
+      <span class="tag">デュエット</span>なし　
+      <span class="tag">ハモリ</span>あり
+    </div>
+  </section>
+
+  <div class="footer">
+    ✧ Last Update　2026.06.02 ✧
+  </div>
+
 </div>
-
-<div class="subtitle">
-歌える曲一覧
-</div>
-
-<br>
-
-<div>
-リクエスト歓迎です🤍
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="song">
-♪ Snow halation
-</div>
-
-<div class="artist">
-μ's
-</div>
-
-<div class="info">
-作品：ラブライブ！<br>
-デュエット：なし<br>
-ハモリ：あり
-</div>
-
-</div>
-
-</div>
-
 </body>
 </html>
