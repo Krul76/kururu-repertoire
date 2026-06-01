@@ -388,9 +388,21 @@ async function loadSongs(){
   date: row[7]?.trim() || ""
 })).filter(song => song.title);
 
-  allSongs.sort((a,b) =>
-    a.title.localeCompare(b.title, "ja")
+  allSongs.sort((a,b) => {
+
+  const aNew = isNew(a.date) ? 1 : 0;
+  const bNew = isNew(b.date) ? 1 : 0;
+
+  if(aNew !== bNew){
+    return bNew - aNew;
+  }
+
+  return a.title.localeCompare(
+    b.title,
+    "ja"
   );
+
+});
 
   const dates = allSongs.map(s => s.date).filter(Boolean);
   if(dates.length){
