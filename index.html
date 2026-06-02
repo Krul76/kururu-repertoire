@@ -445,6 +445,7 @@ function renderSongs(){
   (currentTag === "十八番" && isYes(song.favorite));
 
 return matchCategory && matchKeyword && matchTag;
+    });
 
   document.getElementById("songCount").textContent = filtered.length;
 
