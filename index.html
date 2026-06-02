@@ -475,6 +475,10 @@ return (a.title || "").localeCompare(
 
 document.getElementById("searchInput").addEventListener("input", renderSongs);
 
+ <button id="topBtn" class="top-btn">
+  ▲
+</button>
+
 loadSongs();
   document.getElementById("topBtn").addEventListener("click", () => {
   window.scrollTo({
@@ -482,10 +486,6 @@ loadSongs();
     behavior: "smooth"
   });
 });
-
-<button id="topBtn" class="top-btn">
-  ▲
-</button>
   
 </script>
 
