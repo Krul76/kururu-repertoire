@@ -475,19 +475,26 @@ return (a.title || "").localeCompare(
 
 document.getElementById("searchInput").addEventListener("input", renderSongs);
 
- <button id="topBtn" class="top-btn">
-  ▲
-</button>
-
 loadSongs();
-  document.getElementById("topBtn").addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+
+window.addEventListener("DOMContentLoaded", () => {
+  const topBtn = document.getElementById("topBtn");
+
+  if(topBtn){
+    topBtn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  }
 });
-  
+
 </script>
+
+<button id="topBtn" class="top-btn">
+▲
+</button>
 
 </body>
 </html>
