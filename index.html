@@ -330,13 +330,9 @@ function renderCategoryButtons(){
     "洋楽"
   ];
 
-  const existingCategories = [
-    ...new Set(
-      allSongs
-        .map(song => song.category)
-        .filter(Boolean)
-    )
-  ];
+  const existingCategories = [...new Set(
+    allSongs.map(song => song.category).filter(Boolean)
+  )];
 
   const categories = [
     ...categoryOrder.filter(category =>
@@ -365,23 +361,7 @@ function renderCategoryButtons(){
   });
 }
 
-  const container = document.getElementById("categoryButtons");
-
-  container.innerHTML = categories.map(category => `
-    <div class="cat ${category === currentCategory ? "active" : ""}" data-category="${category}">
-      ${category}
-    </div>
-  `).join("");
-
-  container.querySelectorAll(".cat").forEach(button => {
-    button.addEventListener("click", () => {
-      container.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
-      button.classList.add("active");
-      currentCategory = button.dataset.category;
-      renderSongs();
-    });
-  });
-}
+  
 
 function renderSongs(){
   const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
