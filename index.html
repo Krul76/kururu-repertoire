@@ -316,14 +316,54 @@ function makeCard(song){
 }
 
 function renderCategoryButtons(){
-  const categories = [
+  const categoryOrder = [
     "全曲",
+    "アニメ",
+    "ゲーム",
+    "声優",
+    "女性アイドル",
+    "男性アイドル",
+    "VTuber",
+    "ボカロ",
+    "J-POP",
+    "昭和歌謡",
+    "洋楽"
+  ];
+
+  const existingCategories = [
     ...new Set(
       allSongs
         .map(song => song.category)
         .filter(Boolean)
     )
   ];
+
+  const categories = [
+    ...categoryOrder.filter(category =>
+      category === "全曲" || existingCategories.includes(category)
+    ),
+    ...existingCategories.filter(category =>
+      !categoryOrder.includes(category)
+    )
+  ];
+
+  const container = document.getElementById("categoryButtons");
+
+  container.innerHTML = categories.map(category => `
+    <div class="cat ${category === currentCategory ? "active" : ""}" data-category="${category}">
+      ${category}
+    </div>
+  `).join("");
+
+  container.querySelectorAll(".cat").forEach(button => {
+    button.addEventListener("click", () => {
+      container.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
+      button.classList.add("active");
+      currentCategory = button.dataset.category;
+      renderSongs();
+    });
+  });
+}
 
   const container = document.getElementById("categoryButtons");
 
