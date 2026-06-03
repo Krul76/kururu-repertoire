@@ -616,22 +616,16 @@ async function loadSongs(){
 
 function showSecretMessage(){
   const keyword =
-    document.getElementById("searchInput")
-      .value
-      .trim();
+   function showSecretMessage(){
+  const keyword = document.getElementById("searchInput").value.trim();
 
   if(keyword === "桜庭クルル" || keyword === "クルル"){
-
     document.getElementById("secretMessage").innerHTML = `
-      <div class="today-title">
-        ✧ Secret ✧
-      </div>
-
+      <div class="today-title">✧ Secret ✧</div>
       <div class="lucky-comment">
         ごきげんよう！見つけてくれてありがとう♡
       </div>
     `;
-
   }else if(
     keyword === "トワイライトルージュ" ||
     keyword === "TwilightRouge" ||
@@ -639,21 +633,14 @@ function showSecretMessage(){
     keyword === "twilightrouge" ||
     keyword === "twilight rouge"
   ){
-
     document.getElementById("secretMessage").innerHTML = `
-      <div class="today-title">
-        ✧ Secret ✧
-      </div>
-
+      <div class="today-title">✧ Secret ✧</div>
       <div class="lucky-comment">
         おかえりなさいませ先輩っ！
       </div>
     `;
-
   }else{
-
     document.getElementById("secretMessage").innerHTML = "";
-
   }
 }
 
@@ -662,16 +649,10 @@ document.getElementById("searchInput").addEventListener("input", () => {
   renderSongs();
 });
 
-}else{
-
-  document.getElementById("todaySong").innerHTML = "";
-
-}
-
-
 document.getElementById("clearSearchBtn").addEventListener("click", () => {
   const searchInput = document.getElementById("searchInput");
   searchInput.value = "";
+  showSecretMessage();
   renderSongs();
 });
 
@@ -696,31 +677,10 @@ document.getElementById("randomBtn").addEventListener("click", () => {
     luckyComments[Math.floor(Math.random() * luckyComments.length)];
 
   document.getElementById("todaySong").innerHTML = `
-    <div class="today-title">
-      ✧ Today's Song ✧
-    </div>
-
+    <div class="today-title">✧ Today's Song ✧</div>
     <div class="lucky-comment">
       ${randomComment}
     </div>
-
-    ${makeCard(randomSong)}
-  `;
-
-  document.getElementById("todaySong").scrollIntoView({
-    behavior:"smooth",
-    block:"center"
-  });
-});
-
-  const randomSong =
-    allSongs[Math.floor(Math.random() * allSongs.length)];
-
-  document.getElementById("todaySong").innerHTML = `
-    <div class="today-title">
-      ✧ Today's Song ✧
-    </div>
-
     ${makeCard(randomSong)}
   `;
 
