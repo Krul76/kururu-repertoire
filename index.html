@@ -10,7 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-*{ box-sizing:border-box; }
+*{
+  box-sizing:border-box;
+}
 
 html{
   min-height:100%;
@@ -75,10 +77,14 @@ h1{
   font-size:13px;
 }
 
+.search-area{
+  position:relative;
+  margin:4px 0 12px;
+}
+
 .search{
   width:100%;
-  padding:11px 13px;
-  margin:4px 0 16px;
+  padding:11px 42px 11px 13px;
   border:1px solid #9fc2ed;
   background:rgba(255,255,255,.70);
   color:#5f91d2;
@@ -86,13 +92,9 @@ h1{
   font-size:13px;
   border-radius:0;
 }
-.search-area{
-  position:relative;
-  margin:4px 0 12px;
-}
 
-.search{
-  padding-right:42px;
+.search::placeholder{
+  color:#94b7e4;
 }
 
 .clear-btn{
@@ -100,32 +102,26 @@ h1{
   right:10px;
   top:50%;
   transform:translateY(-50%);
-
   border:none;
   background:transparent;
-
   color:#8fb8e8;
   font-size:18px;
   font-family:"Zen Old Mincho", serif;
-
+  line-height:1;
   cursor:pointer;
+  padding:0 4px;
 }
 
 .random-btn{
   width:100%;
-
   border:1px solid #9fc2ed;
   background:rgba(255,255,255,.90);
-
   color:#5f91d2;
-
   padding:8px 5px;
   margin:0 0 16px;
-
   text-align:center;
   font-family:"Zen Old Mincho", serif;
   font-size:12px;
-
   cursor:pointer;
 }
 
@@ -136,22 +132,16 @@ h1{
 .today-title{
   text-align:center;
   margin-bottom:10px;
-
   font-size:12px;
   color:#7aa7dc;
-
   letter-spacing:.08em;
-}
-  
-.search::placeholder{
-  color:#94b7e4;
 }
 
 .categories{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:8px;
-  margin-bottom:20px;
+  margin-bottom:12px;
 }
 
 .cat{
@@ -163,8 +153,12 @@ h1{
   font-size:13px;
   cursor:pointer;
 }
-  
-  .tag-filters{
+
+.cat.active{
+  background:rgba(143,184,232,.22);
+}
+
+.tag-filters{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:8px;
@@ -182,10 +176,6 @@ h1{
 }
 
 .tag-filter.active{
-  background:rgba(143,184,232,.22);
-}
-
-.cat.active{
   background:rgba(143,184,232,.22);
 }
 
@@ -268,28 +258,23 @@ h1{
   color:#7aa7dc;
 }
 
-  .top-btn{
+.top-btn{
   position:fixed;
   right:18px;
   bottom:22px;
   width:42px;
   height:42px;
-
   background:rgba(255,255,255,.85);
   border:1px solid #8fb8e8;
   outline:1px solid rgba(143,184,232,.4);
   outline-offset:2px;
-
   color:#6f95d8;
   font-size:18px;
   cursor:pointer;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   z-index:999;
-
   transition:.2s;
 }
 
@@ -298,9 +283,17 @@ h1{
 }
 
 @media(min-width:640px){
-  body{ padding:24px; }
-  .categories{ grid-template-columns:repeat(4,1fr); }
-  h1{ font-size:34px; }
+  body{
+    padding:24px;
+  }
+
+  .categories{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  h1{
+    font-size:34px;
+  }
 }
 </style>
 </head>
@@ -312,47 +305,45 @@ h1{
     <div class="moon">☾</div>
     <h1>Krul Repertoire</h1>
     <div class="sub">歌える曲一覧</div>
-    <div class="count">
-  ⟡ <span id="songCount">0</span> Songs ⟡
-</div>
+    <div class="count">⟡ <span id="songCount">0</span> Songs ⟡</div>
     <div class="message">
       歌唱実習大好きな候補生です🤍<br>
       是非参考にしてくださいっ！
     </div>
   </section>
 
- <div class="search-area">
-  <input
-    id="searchInput"
-    class="search"
-    type="text"
-    placeholder="曲名・アーティスト・作品で検索">
+  <div class="search-area">
+    <input
+      id="searchInput"
+      class="search"
+      type="text"
+      placeholder="曲名・アーティスト・作品で検索">
+
+    <button
+      id="clearSearchBtn"
+      class="clear-btn"
+      type="button">
+      ×
+    </button>
+  </div>
 
   <button
-    id="clearSearchBtn"
-    class="clear-btn"
+    id="randomBtn"
+    class="random-btn"
     type="button">
-    ×
+    ✧ Pick a Song ✧
   </button>
-</div>
 
-<button
-  id="randomBtn"
-  class="random-btn"
-  type="button">
-  ✧ Pick a Song ✧
-</button>
-
-<div id="todaySong"></div>
+  <div id="todaySong"></div>
 
   <div class="categories" id="categoryButtons"></div>
 
   <div class="tag-filters" id="tagButtons">
-  <div class="tag-filter active" data-tag="全て">全て</div>
-  <div class="tag-filter" data-tag="デュエット">デュエット</div>
-  <div class="tag-filter" data-tag="ハモリ">ハモリ</div>
-  <div class="tag-filter" data-tag="十八番">十八番</div>
-</div>
+    <div class="tag-filter active" data-tag="全て">全て</div>
+    <div class="tag-filter" data-tag="デュエット">デュエット</div>
+    <div class="tag-filter" data-tag="ハモリ">ハモリ</div>
+    <div class="tag-filter" data-tag="十八番">十八番</div>
+  </div>
 
   <div id="songList"></div>
 
@@ -362,13 +353,14 @@ h1{
 
 </div>
 
+<button id="topBtn" class="top-btn">▲</button>
+
 <script>
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ444xhyCcfqrCQePNQS_DhjMc-wLoXzTWUYyB7I4Q1-bIzbTgTDtkf8ZKbFyiwtiruFQ1uhXX8lwcG/pub?gid=0&single=true&output=csv";
 
 let allSongs = [];
 let currentCategory = "全曲";
 let currentTag = "全て";
-
 
 function parseCSV(text){
   const rows = [];
@@ -395,7 +387,9 @@ function parseCSV(text){
         row = [];
         cell = "";
       }
-      if(char === "\r" && next === "\n") i++;
+      if(char === "\r" && next === "\n"){
+        i++;
+      }
     }else{
       cell += char;
     }
@@ -415,10 +409,15 @@ function isYes(value){
 }
 
 function isNew(dateText){
-  if(!dateText) return false;
+  if(!dateText){
+    return false;
+  }
 
   const date = new Date(String(dateText).replace(/\./g,"/").replace(/-/g,"/"));
-  if(isNaN(date)) return false;
+
+  if(isNaN(date)){
+    return false;
+  }
 
   const today = new Date();
   const diff = (today - date) / (1000 * 60 * 60 * 24);
@@ -426,17 +425,24 @@ function isNew(dateText){
   return diff <= 30;
 }
 
-function formatLastUpdate(dateText){
-  return dateText || "";
-}
-
 function makeCard(song){
   const badges = [];
 
-  if(song.category) badges.push(song.category);
-  if(isYes(song.duet)) badges.push("デュエット");
-  if(isYes(song.harmony)) badges.push("ハモリ");
-  if(isYes(song.favorite)) badges.push("十八番");
+  if(song.category){
+    badges.push(song.category);
+  }
+
+  if(isYes(song.duet)){
+    badges.push("デュエット");
+  }
+
+  if(isYes(song.harmony)){
+    badges.push("ハモリ");
+  }
+
+  if(isYes(song.favorite)){
+    badges.push("十八番");
+  }
 
   return `
     <section class="song-card">
@@ -467,9 +473,13 @@ function renderCategoryButtons(){
     "洋楽"
   ];
 
-  const existingCategories = [...new Set(
-    allSongs.map(song => song.category).filter(Boolean)
-  )];
+  const existingCategories = [
+    ...new Set(
+      allSongs
+        .map(song => song.category)
+        .filter(Boolean)
+    )
+  ];
 
   const categories = [
     ...categoryOrder.filter(category =>
@@ -498,12 +508,10 @@ function renderCategoryButtons(){
   });
 }
 
-  
-
-function renderSongs(){
+function getFilteredSongs(){
   const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
 
-  const filtered = allSongs.filter(song => {
+  return allSongs.filter(song => {
     const matchCategory =
       currentCategory === "全曲" || song.category === currentCategory;
 
@@ -517,13 +525,17 @@ function renderSongs(){
     const matchKeyword = text.includes(keyword);
 
     const matchTag =
-  currentTag === "全て" ||
-  (currentTag === "デュエット" && isYes(song.duet)) ||
-  (currentTag === "ハモリ" && isYes(song.harmony)) ||
-  (currentTag === "十八番" && isYes(song.favorite));
+      currentTag === "全て" ||
+      (currentTag === "デュエット" && isYes(song.duet)) ||
+      (currentTag === "ハモリ" && isYes(song.harmony)) ||
+      (currentTag === "十八番" && isYes(song.favorite));
 
-return matchCategory && matchKeyword && matchTag;
-    });
+    return matchCategory && matchKeyword && matchTag;
+  });
+}
+
+function renderSongs(){
+  const filtered = getFilteredSongs();
 
   document.getElementById("songCount").textContent = filtered.length;
 
@@ -533,75 +545,80 @@ return matchCategory && matchKeyword && matchTag;
       : `<div class="empty">該当する曲がありません</div>`;
 }
 
-async function loadSongs(){
-  const response = await fetch(CSV_URL);
-  const text = await response.text();
-  const rows = parseCSV(text).filter(row => row.some(cell => cell.trim() !== ""));
-
-  rows.shift();
-
-  allSongs = rows.map(row => ({
-  title: row[0]?.trim() || "",
-  artist: row[1]?.trim() || "",
-  source: row[2]?.trim() || "",
-  category: row[3]?.trim() || "",
-  duet: row[4]?.trim() || "",
-  harmony: row[5]?.trim() || "",
-  favorite: row[6]?.trim() || "",
-  date: row[7]?.trim() || ""
-})).filter(song => song.title);
-
+function sortSongs(){
   allSongs.sort((a,b) => {
+    const aNew = isNew(a.date) ? 1 : 0;
+    const bNew = isNew(b.date) ? 1 : 0;
 
-  const aNew = isNew(a.date) ? 1 : 0;
-  const bNew = isNew(b.date) ? 1 : 0;
+    if(aNew !== bNew){
+      return bNew - aNew;
+    }
 
-  if(aNew !== bNew){
-    return bNew - aNew;
-  }
+    const artistCompare =
+      (a.artist || "").localeCompare(
+        (b.artist || ""),
+        "ja"
+      );
 
-const artistCompare =
-  (a.artist || "").localeCompare(
-    (b.artist || ""),
-    "ja"
-  );
+    if(artistCompare !== 0){
+      return artistCompare;
+    }
 
-if(artistCompare !== 0){
-  return artistCompare;
+    return (a.title || "").localeCompare(
+      (b.title || ""),
+      "ja"
+    );
+  });
 }
 
-return (a.title || "").localeCompare(
-  (b.title || ""),
-  "ja"
-); 
+async function loadSongs(){
+  try{
+    const response = await fetch(CSV_URL);
+    const text = await response.text();
+    const rows = parseCSV(text).filter(row =>
+      row.some(cell => cell.trim() !== "")
+    );
 
-});
+    rows.shift();
 
-  const dates = allSongs.map(s => s.date).filter(Boolean);
-  if(dates.length){
-    document.getElementById("lastUpdate").textContent =
-      `✧ Last Update　${formatLastUpdate(dates[dates.length - 1])} ✧`;
+    allSongs = rows.map(row => ({
+      title: row[0]?.trim() || "",
+      artist: row[1]?.trim() || "",
+      source: row[2]?.trim() || "",
+      category: row[3]?.trim() || "",
+      duet: row[4]?.trim() || "",
+      harmony: row[5]?.trim() || "",
+      favorite: row[6]?.trim() || "",
+      date: row[7]?.trim() || ""
+    })).filter(song => song.title);
+
+    sortSongs();
+
+    const dates = allSongs.map(song => song.date).filter(Boolean);
+
+    if(dates.length){
+      document.getElementById("lastUpdate").textContent =
+        `✧ Last Update　${dates[dates.length - 1]} ✧`;
+    }
+
+    renderCategoryButtons();
+    renderSongs();
+
+  }catch(error){
+    document.getElementById("songList").innerHTML =
+      `<div class="empty">曲リストを読み込めませんでした</div>`;
   }
-
-  renderCategoryButtons();
-  renderSongs();
 }
 
 document.getElementById("searchInput").addEventListener("input", renderSongs);
 
-  document.getElementById("clearSearchBtn").addEventListener("click", () => {
-
-  const searchInput =
-    document.getElementById("searchInput");
-
+document.getElementById("clearSearchBtn").addEventListener("click", () => {
+  const searchInput = document.getElementById("searchInput");
   searchInput.value = "";
-
   renderSongs();
-
 });
 
-  document.getElementById("randomBtn").addEventListener("click", () => {
-
+document.getElementById("randomBtn").addEventListener("click", () => {
   if(allSongs.length === 0){
     return;
   }
@@ -617,16 +634,13 @@ document.getElementById("searchInput").addEventListener("input", renderSongs);
     ${makeCard(randomSong)}
   `;
 
-  document.getElementById("todaySong")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-
+  document.getElementById("todaySong").scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
 });
 
-  
-  document.querySelectorAll(".tag-filter").forEach(button => {
+document.querySelectorAll(".tag-filter").forEach(button => {
   button.addEventListener("click", () => {
     document.querySelectorAll(".tag-filter").forEach(b => b.classList.remove("active"));
     button.classList.add("active");
@@ -635,26 +649,15 @@ document.getElementById("searchInput").addEventListener("input", renderSongs);
   });
 });
 
-loadSongs();
-
-window.addEventListener("DOMContentLoaded", () => {
-  const topBtn = document.getElementById("topBtn");
-
-  if(topBtn){
-    topBtn.addEventListener("click", () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    });
-  }
+document.getElementById("topBtn").addEventListener("click", () => {
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 });
 
+loadSongs();
 </script>
-
-<button id="topBtn" class="top-btn">
-▲
-</button>
 
 </body>
 </html>
