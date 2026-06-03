@@ -86,7 +86,63 @@ h1{
   font-size:13px;
   border-radius:0;
 }
+.search-area{
+  position:relative;
+  margin:4px 0 12px;
+}
 
+.search{
+  padding-right:42px;
+}
+
+.clear-btn{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+
+  border:none;
+  background:transparent;
+
+  color:#8fb8e8;
+  font-size:18px;
+  font-family:"Zen Old Mincho", serif;
+
+  cursor:pointer;
+}
+
+.random-btn{
+  width:100%;
+
+  border:1px solid #9fc2ed;
+  background:rgba(255,255,255,.90);
+
+  color:#5f91d2;
+
+  padding:8px 5px;
+  margin:0 0 16px;
+
+  text-align:center;
+  font-family:"Zen Old Mincho", serif;
+  font-size:12px;
+
+  cursor:pointer;
+}
+
+#todaySong{
+  margin-bottom:16px;
+}
+
+.today-title{
+  text-align:center;
+  margin-bottom:10px;
+
+  font-size:12px;
+  color:#7aa7dc;
+
+  letter-spacing:.08em;
+}
+  
 .search::placeholder{
   color:#94b7e4;
 }
@@ -265,7 +321,29 @@ h1{
     </div>
   </section>
 
-  <input id="searchInput" class="search" type="text" placeholder="曲名・アーティスト・作品で検索">
+ <div class="search-area">
+  <input
+    id="searchInput"
+    class="search"
+    type="text"
+    placeholder="曲名・アーティスト・作品で検索">
+
+  <button
+    id="clearSearchBtn"
+    class="clear-btn"
+    type="button">
+    ×
+  </button>
+</div>
+
+<button
+  id="randomBtn"
+  class="random-btn"
+  type="button">
+  ✧ Pick a Song ✧
+</button>
+
+<div id="todaySong"></div>
 
   <div class="categories" id="categoryButtons"></div>
 
@@ -510,6 +588,43 @@ return (a.title || "").localeCompare(
 }
 
 document.getElementById("searchInput").addEventListener("input", renderSongs);
+
+  document.getElementById("clearSearchBtn").addEventListener("click", () => {
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  searchInput.value = "";
+
+  renderSongs();
+
+});
+
+  document.getElementById("randomBtn").addEventListener("click", () => {
+
+  if(allSongs.length === 0){
+    return;
+  }
+
+  const randomSong =
+    allSongs[Math.floor(Math.random() * allSongs.length)];
+
+  document.getElementById("todaySong").innerHTML = `
+    <div class="today-title">
+      ✧ Today's Song ✧
+    </div>
+
+    ${makeCard(randomSong)}
+  `;
+
+  document.getElementById("todaySong")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+});
+
   
   document.querySelectorAll(".tag-filter").forEach(button => {
   button.addEventListener("click", () => {
