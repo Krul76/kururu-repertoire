@@ -132,6 +132,14 @@ h1{
   letter-spacing:.08em;
 }
 
+  .lucky-comment{
+  text-align:center;
+  margin:-4px 0 12px;
+  font-size:11px;
+  color:#7aa7dc;
+  line-height:1.7;
+}
+
 .categories{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -604,7 +612,49 @@ async function loadSongs(){
   }
 }
 
-document.getElementById("searchInput").addEventListener("input", renderSongs);
+document.getElementById("searchInput").addEventListener("input", () => {
+
+  const keyword =
+    document.getElementById("searchInput")
+      .value
+      .trim();
+
+  if(keyword === "桜庭クルル" || keyword === "クルル"){
+
+  document.getElementById("todaySong").innerHTML = `
+    <div class="today-title">
+      ✧ Secret ✧
+    </div>
+
+    <div class="lucky-comment">
+      ごきげんよう！見つけてくれてありがとう♡
+    </div>
+  `;
+
+}else if(
+  keyword === "トワイライトルージュ" ||
+  keyword === "TwilightRouge" ||
+  keyword === "Twilight Rouge" ||
+  keyword === "twilightrouge" ||
+  keyword === "twilight rouge"
+){
+
+  document.getElementById("todaySong").innerHTML = `
+    <div class="today-title">
+      ✧ Secret ✧
+    </div>
+
+    <div class="lucky-comment">
+      おかえりなさいませ先輩っ！
+    </div>
+  `;
+
+}else{
+
+  document.getElementById("todaySong").innerHTML = "";
+
+}
+
 
 document.getElementById("clearSearchBtn").addEventListener("click", () => {
   const searchInput = document.getElementById("searchInput");
@@ -616,6 +666,39 @@ document.getElementById("randomBtn").addEventListener("click", () => {
   if(allSongs.length === 0){
     return;
   }
+
+  const luckyComments = [
+    "本日のラッキーソングです☆",
+    "今日はこの曲があなたを待っています",
+    "こちらの曲はいかがですか？",
+    "今の気分にぴったりかも！",
+    "迷ったら今日はこれで決まりです！",
+    "クルルからのおすすめ曲です〜♡♡"
+  ];
+
+  const randomSong =
+    allSongs[Math.floor(Math.random() * allSongs.length)];
+
+  const randomComment =
+    luckyComments[Math.floor(Math.random() * luckyComments.length)];
+
+  document.getElementById("todaySong").innerHTML = `
+    <div class="today-title">
+      ✧ Today's Song ✧
+    </div>
+
+    <div class="lucky-comment">
+      ${randomComment}
+    </div>
+
+    ${makeCard(randomSong)}
+  `;
+
+  document.getElementById("todaySong").scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+});
 
   const randomSong =
     allSongs[Math.floor(Math.random() * allSongs.length)];
