@@ -800,11 +800,14 @@ document.getElementById("randomBtn").addEventListener("click", () => {
     luckyComments[Math.floor(Math.random() * luckyComments.length)];
 
   document.getElementById("todaySong").innerHTML = `
-    <div class="lucky-comment">
-      ${randomComment}
-    </div>
-    ${makeCard(randomSong)}
-  `;
+  <div class="lucky-comment">
+    ${randomComment}
+    <br><br>
+    ♪ ${randomSong.title}
+    <br>
+    ${randomSong.artist}
+  </div>
+`;
 
   document.getElementById("todaySong").scrollIntoView({
     behavior:"smooth",
