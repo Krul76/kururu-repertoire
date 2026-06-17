@@ -10,9 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{ box-sizing:border-box; }
 
 html{
   min-height:100%;
@@ -72,6 +70,65 @@ h1{
   font-size:11px;
 }
 
+.random-btn{
+  width:100%;
+  border:1px solid #9fc2ed;
+  background:rgba(255,255,255,.90);
+  color:#5f91d2;
+  padding:8px 5px;
+  margin:0 0 16px;
+  text-align:center;
+  font-family:"Zen Old Mincho", serif;
+  font-size:12px;
+  cursor:pointer;
+}
+
+#todaySong{
+  margin-bottom:16px;
+}
+
+.today-title{
+  text-align:center;
+  margin-bottom:10px;
+  font-size:12px;
+  color:#7aa7dc;
+  letter-spacing:.08em;
+}
+
+.lucky-comment{
+  text-align:center;
+  margin:0 0 16px;
+  font-size:11px;
+  color:#7aa7dc;
+  line-height:1.7;
+}
+
+.cast-match{
+  background:rgba(255,255,255,.70);
+  border:1px solid #9fc2ed;
+  padding:10px;
+  margin:0 0 16px;
+}
+
+.cast-title{
+  text-align:center;
+  font-size:12px;
+  color:#7aa7dc;
+  margin-bottom:8px;
+  letter-spacing:.08em;
+}
+
+.cast-select{
+  width:100%;
+  border:1px solid #9fc2ed;
+  background:rgba(255,255,255,.90);
+  color:#5f91d2;
+  padding:9px 10px;
+  font-family:"Zen Old Mincho", serif;
+  font-size:12px;
+  border-radius:0;
+}
+
 .search-area{
   position:relative;
   margin:4px 0 12px;
@@ -106,66 +163,6 @@ h1{
   cursor:pointer;
   padding:0 4px;
 }
-
-.random-btn{
-  width:100%;
-  border:1px solid #9fc2ed;
-  background:rgba(255,255,255,.90);
-  color:#5f91d2;
-  padding:8px 5px;
-  margin:0 0 16px;
-  text-align:center;
-  font-family:"Zen Old Mincho", serif;
-  font-size:12px;
-  cursor:pointer;
-}
-
-#todaySong{
-  margin-bottom:16px;
-}
-
-.today-title{
-  text-align:center;
-  margin-bottom:10px;
-  font-size:12px;
-  color:#7aa7dc;
-  letter-spacing:.08em;
-}
-
-  .lucky-comment{
-  text-align:center;
-  margin:-4px 0 12px;
-  font-size:11px;
-  color:#7aa7dc;
-  line-height:1.7;
-}
-
-  .cast-match{
-  background:rgba(255,255,255,.70);
-  border:1px solid #9fc2ed;
-  padding:10px;
-  margin:0 0 16px;
-}
-
-.cast-title{
-  text-align:center;
-  font-size:12px;
-  color:#7aa7dc;
-  margin-bottom:8px;
-  letter-spacing:.08em;
-}
-
-.cast-select{
-  width:100%;
-  border:1px solid #9fc2ed;
-  background:rgba(255,255,255,.90);
-  color:#5f91d2;
-  padding:9px 10px;
-  font-family:"Zen Old Mincho", serif;
-  font-size:12px;
-  border-radius:0;
-}
-
 
 .categories{
   display:grid;
@@ -313,17 +310,9 @@ h1{
 }
 
 @media(min-width:640px){
-  body{
-    padding:24px;
-  }
-
-  .categories{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  h1{
-    font-size:34px;
-  }
+  body{ padding:24px; }
+  .categories{ grid-template-columns:repeat(4,1fr); }
+  h1{ font-size:34px; }
 }
 </style>
 </head>
@@ -341,22 +330,19 @@ h1{
     </div>
   </section>
 
-    <button
-    id="randomBtn"
-    class="random-btn"
-    type="button">
+  <button id="randomBtn" class="random-btn" type="button">
     ✧ Pick a Song ✧
   </button>
 
   <div id="todaySong"></div>
 
   <section class="cast-match">
-  <div class="cast-title">✧ Cast Match ✧</div>
+    <div class="cast-title">✧ Cast Match ✧</div>
 
-  <select id="castSelect" class="cast-select">
-    <option value="">候補生を選択</option>
-  </select>
-</section>
+    <select id="castSelect" class="cast-select">
+      <option value="">候補生を選択</option>
+    </select>
+  </section>
 
   <div class="search-area">
     <input
@@ -365,10 +351,7 @@ h1{
       type="text"
       placeholder="曲名・アーティスト・作品で検索">
 
-    <button
-      id="clearSearchBtn"
-      class="clear-btn"
-      type="button">
+    <button id="clearSearchBtn" class="clear-btn" type="button">
       ×
     </button>
   </div>
@@ -396,11 +379,12 @@ h1{
 
 <script>
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ444xhyCcfqrCQePNQS_DhjMc-wLoXzTWUYyB7I4Q1-bIzbTgTDtkf8ZKbFyiwtiruFQ1uhXX8lwcG/pub?gid=0&single=true&output=csv";
-const CAST_CSV_URL = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ444xhyCcfqrCQePNQS_DhjMc-wLoXzTWUYyB7I4Q1-bIzbTgTDtkf8ZKbFyiwtiruFQ1uhXX8lwcG/pub?gid=1785224709&single=true&output=csv";
+const CAST_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ444xhyCcfqrCQePNQS_DhjMc-wLoXzTWUYyB7I4Q1-bIzbTgTDtkf8ZKbFyiwtiruFQ1uhXX8lwcG/pub?gid=1785224709&single=true&output=csv";
+
 let allSongs = [];
+let castSongs = [];
 let currentCategory = "全曲";
 let currentTag = "全て";
-let castSongs = [];
 
 function parseCSV(text){
   const rows = [];
@@ -443,6 +427,13 @@ function parseCSV(text){
   return rows;
 }
 
+function normalizeText(text){
+  return String(text || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s/g,"");
+}
+
 function isYes(value){
   const v = String(value || "").trim();
   return ["あり","有","○","◯","TRUE","true","1","yes","Yes"].includes(v);
@@ -463,6 +454,21 @@ function isNew(dateText){
   const diff = (today - date) / (1000 * 60 * 60 * 24);
 
   return diff <= 30;
+}
+
+function isCastMatch(song, selectedCast){
+  if(!selectedCast){
+    return true;
+  }
+
+  return castSongs.some(item =>
+    item.cast === selectedCast &&
+    normalizeText(item.title) === normalizeText(song.title) &&
+    (
+      !item.artist ||
+      normalizeText(item.artist) === normalizeText(song.artist)
+    )
+  );
 }
 
 function makeCard(song){
@@ -548,54 +554,23 @@ function renderCategoryButtons(){
   });
 }
 
-  function normalizeText(text){
-  return String(text || "")
-    .trim()
-    .toLowerCase()
-    .replace(/\s/g,"");
-}
-
-function isCastMatch(song, selectedCast){
-  if(!selectedCast){
-    return true;
-  }
-
-  return castSongs.some(item =>
-    item.cast === selectedCast &&
-    normalizeText(item.title) === normalizeText(song.title) &&
-    (
-      !item.artist ||
-      normalizeText(item.artist) === normalizeText(song.artist)
+function renderCastOptions(){
+  const casts = [
+    ...new Set(
+      castSongs
+        .map(item => item.cast)
+        .filter(Boolean)
     )
-  );
-}
+  ];
 
-const CAST_CSV_URL = "ここにキャスト被りシートのCSV公開URL";
+  const select = document.getElementById("castSelect");
 
-
-let castSongs = [];
-
-
-function normalizeText(text){
-  return String(text || "")
-    .trim()
-    .toLowerCase()
-    .replace(/\s/g,"");
-}
-
-function isCastMatch(song, selectedCast){
-  if(!selectedCast){
-    return true;
-  }
-
-  return castSongs.some(item =>
-    item.cast === selectedCast &&
-    normalizeText(item.title) === normalizeText(song.title) &&
-    (
-      !item.artist ||
-      normalizeText(item.artist) === normalizeText(song.artist)
-    )
-  );
+  select.innerHTML = `
+    <option value="">候補生を選択</option>
+    ${casts.map(cast => `
+      <option value="${cast}">${cast}</option>
+    `).join("")}
+  `;
 }
 
 function getFilteredSongs(){
@@ -622,10 +597,9 @@ function getFilteredSongs(){
       (currentTag === "十八番" && isYes(song.favorite));
 
     const matchCast =
-  isCastMatch(song, selectedCast);
+      isCastMatch(song, selectedCast);
 
-return matchCategory && matchKeyword && matchTag && matchCast;
-
+    return matchCategory && matchKeyword && matchTag && matchCast;
   });
 }
 
@@ -666,6 +640,34 @@ function sortSongs(){
   });
 }
 
+function showSecretMessage(){
+  const keyword = document.getElementById("searchInput").value.trim();
+
+  if(keyword === "桜庭クルル" || keyword === "クルル"){
+    document.getElementById("secretMessage").innerHTML = `
+      <div class="today-title">✧ Secret ✧</div>
+      <div class="lucky-comment">
+        ごきげんよう！見つけてくれてありがとう♡
+      </div>
+    `;
+  }else if(
+    keyword === "トワイライトルージュ" ||
+    keyword === "TwilightRouge" ||
+    keyword === "Twilight Rouge" ||
+    keyword === "twilightrouge" ||
+    keyword === "twilight rouge"
+  ){
+    document.getElementById("secretMessage").innerHTML = `
+      <div class="today-title">✧ Secret ✧</div>
+      <div class="lucky-comment">
+        おかえりなさいませ先輩っ！
+      </div>
+    `;
+  }else{
+    document.getElementById("secretMessage").innerHTML = "";
+  }
+}
+
 async function loadSongs(){
   try{
     const response = await fetch(CSV_URL);
@@ -696,72 +698,33 @@ async function loadSongs(){
         `✧ Last Update　${dates[dates.length - 1]} ✧`;
     }
 
-    renderCategoryButtons();
-    renderSongs();
-
   }catch(error){
     document.getElementById("songList").innerHTML =
       `<div class="empty">曲リストを読み込めませんでした</div>`;
   }
 }
-  async function loadCastSongs(){
-  const response = await fetch(CAST_CSV_URL);
-  const text = await response.text();
-  const rows = parseCSV(text).filter(row =>
-    row.some(cell => cell.trim() !== "")
-  );
 
-  rows.shift();
+async function loadCastSongs(){
+  try{
+    const response = await fetch(CAST_CSV_URL);
+    const text = await response.text();
+    const rows = parseCSV(text).filter(row =>
+      row.some(cell => cell.trim() !== "")
+    );
 
-  castSongs = rows.map(row => ({
-    cast: row[0]?.trim() || "",
-    title: row[1]?.trim() || "",
-    artist: row[2]?.trim() || ""
-  })).filter(item => item.cast && item.title);
+    rows.shift();
 
-  renderCastOptions();
-}
+    castSongs = rows.map(row => ({
+      cast: row[0]?.trim() || "",
+      title: row[1]?.trim() || "",
+      artist: row[2]?.trim() || ""
+    })).filter(item => item.cast && item.title);
 
-function renderCastOptions(){
-  const casts = [
-    ...new Set(castSongs.map(item => item.cast).filter(Boolean))
-  ];
+    renderCastOptions();
 
-  const select = document.getElementById("castSelect");
-
-  select.innerHTML = `
-    <option value="">候補生を選択</option>
-    ${casts.map(cast => `
-      <option value="${cast}">${cast}</option>
-    `).join("")}
-  `;
-}
-
-   function showSecretMessage(){
-  const keyword = document.getElementById("searchInput").value.trim();
-
-  if(keyword === "桜庭クルル" || keyword === "クルル"){
-    document.getElementById("secretMessage").innerHTML = `
-      <div class="today-title">✧ Secret ✧</div>
-      <div class="lucky-comment">
-        ごきげんよう！見つけてくれてありがとう♡
-      </div>
-    `;
-  }else if(
-    keyword === "トワイライトルージュ" ||
-    keyword === "TwilightRouge" ||
-    keyword === "Twilight Rouge" ||
-    keyword === "twilightrouge" ||
-    keyword === "twilight rouge"
-  ){
-    document.getElementById("secretMessage").innerHTML = `
-      <div class="today-title">✧ Secret ✧</div>
-      <div class="lucky-comment">
-        おかえりなさいませ先輩っ！
-      </div>
-    `;
-  }else{
-    document.getElementById("secretMessage").innerHTML = "";
+  }catch(error){
+    castSongs = [];
+    renderCastOptions();
   }
 }
 
@@ -798,20 +761,20 @@ document.getElementById("randomBtn").addEventListener("click", () => {
     luckyComments[Math.floor(Math.random() * luckyComments.length)];
 
   document.getElementById("todaySong").innerHTML = `
-    <div class="today-title">✧ Today's Song ✧</div>
-    <div class="lucky-comment">
-      ${randomComment}
-    </div>
-    ${makeCard(randomSong)}
-  `;
+  <div class="lucky-comment">
+    ${randomComment}
+  </div>
+
+  ${makeCard(randomSong)}
+`;
 
   document.getElementById("todaySong").scrollIntoView({
     behavior:"smooth",
     block:"center"
   });
 });
-  
-  document.getElementById("castSelect").addEventListener("change", () => {
+
+document.getElementById("castSelect").addEventListener("change", () => {
   renderSongs();
 });
 
@@ -831,8 +794,14 @@ document.getElementById("topBtn").addEventListener("click", () => {
   });
 });
 
-loadSongs();
-loadCastSongs();
+async function init(){
+  await loadSongs();
+  await loadCastSongs();
+  renderCategoryButtons();
+  renderSongs();
+}
+
+init();
 </script>
 
 </body>
