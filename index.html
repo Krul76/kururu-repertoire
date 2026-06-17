@@ -134,7 +134,7 @@ h1{
 
   .lucky-comment{
   text-align:center;
-  margin:-4px 0 12px;
+  margin:0px 0 16px;
   font-size:11px;
   color:#7aa7dc;
   line-height:1.7;
@@ -695,7 +695,7 @@ function renderCastOptions(){
   const select = document.getElementById("castSelect");
 
   select.innerHTML = `
-    <option value="">キャストを選択</option>
+    <option value="">候補生を選択</option>
     ${casts.map(cast => `
       <option value="${cast}">${cast}</option>
     `).join("")}
@@ -800,7 +800,6 @@ document.getElementById("randomBtn").addEventListener("click", () => {
     luckyComments[Math.floor(Math.random() * luckyComments.length)];
 
   document.getElementById("todaySong").innerHTML = `
-    <div class="today-title">✧ Today's Song ✧</div>
     <div class="lucky-comment">
       ${randomComment}
     </div>
