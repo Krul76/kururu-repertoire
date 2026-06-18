@@ -285,6 +285,23 @@ h1{
   color:#7aa7dc;
 }
 
+  .load-more-btn{
+  width:100%;
+  border:1px solid #9fc2ed;
+  background:rgba(255,255,255,.90);
+  color:#5f91d2;
+  padding:8px 5px;
+  margin:8px 0 20px;
+  text-align:center;
+  font-family:"Zen Old Mincho", serif;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.load-more-btn.hidden{
+  display:none;
+}
+
 .top-btn{
   position:fixed;
   right:18px;
@@ -369,6 +386,10 @@ h1{
 
   <div id="songList"></div>
 
+  <button id="loadMoreBtn" class="load-more-btn" type="button">
+  もっと見る
+</button>
+
   <div class="footer" id="lastUpdate">
     ✧ Last Update ✧
   </div>
@@ -385,6 +406,7 @@ let allSongs = [];
 let castSongs = [];
 let currentCategory = "全曲";
 let currentTag = "全て";
+let visibleCount = 50;
 
 function parseCSV(text){
   const rows = [];
@@ -549,6 +571,7 @@ function renderCategoryButtons(){
       container.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
       button.classList.add("active");
       currentCategory = button.dataset.category;
+      visibleCount = 50;
       renderSongs();
     });
   });
@@ -605,13 +628,21 @@ function getFilteredSongs(){
 
 function renderSongs(){
   const filtered = getFilteredSongs();
+  const visibleSongs = filtered.slice(0, visibleCount);
+  const loadMoreBtn = document.getElementById("loadMoreBtn");
 
   document.getElementById("songCount").textContent = filtered.length;
 
   document.getElementById("songList").innerHTML =
-    filtered.length
-      ? filtered.map(makeCard).join("")
+    visibleSongs.length
+      ? visibleSongs.map(makeCard).join("")
       : `<div class="empty">該当する曲がありません</div>`;
+
+  if(filtered.length > visibleCount){
+    loadMoreBtn.classList.remove("hidden");
+  }else{
+    loadMoreBtn.classList.add("hidden");
+  }
 }
 
 function sortSongs(){
@@ -730,6 +761,7 @@ async function loadCastSongs(){
 
 document.getElementById("searchInput").addEventListener("input", () => {
   showSecretMessage();
+  visibleCount = 50;
   renderSongs();
 });
 
@@ -737,6 +769,7 @@ document.getElementById("clearSearchBtn").addEventListener("click", () => {
   const searchInput = document.getElementById("searchInput");
   searchInput.value = "";
   showSecretMessage();
+  visibleCount = 50;
   renderSongs();
 });
 
@@ -775,6 +808,7 @@ document.getElementById("randomBtn").addEventListener("click", () => {
 });
 
 document.getElementById("castSelect").addEventListener("change", () => {
+  visibleCount = 50;
   renderSongs();
 });
 
@@ -783,10 +817,15 @@ document.querySelectorAll(".tag-filter").forEach(button => {
     document.querySelectorAll(".tag-filter").forEach(b => b.classList.remove("active"));
     button.classList.add("active");
     currentTag = button.dataset.tag;
+    visibleCount = 50;
     renderSongs();
   });
 });
 
+  document.getElementById("loadMoreBtn").addEventListener("click", () => {
+  visibleCount += 50;
+  renderSongs();
+});
 document.getElementById("topBtn").addEventListener("click", () => {
   window.scrollTo({
     top:0,
